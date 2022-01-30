@@ -14,15 +14,15 @@ internal inline fun ListNode.asSeq() = generateSequence(this) { it.next }.map { 
 
 internal fun Seq<Pair<Int, Int>>.toListNode() : ListNode? {
     var head = null as ListNode?
-    var l = 0
+    var lastRemainder = 0
 
     fold(null as ListNode?) { tail, (r, v) ->
         ListNode(v).also {
             tail?.next = it
             head = head ?: it
-            l = r
+            lastRemainder = r
         }
-    }?.next = if (l > 0) ListNode(l) else null
+    }?.next = if (lastRemainder > 0) ListNode(lastRemainder) else null
     
     return head
 }
@@ -30,8 +30,8 @@ internal fun Seq<Pair<Int, Int>>.toListNode() : ListNode? {
 class Solution {
     fun addTwoNumbers(l1: ListNode, l2: ListNode): ListNode? = 
         alignSum(l1.asSeq(), l2.asSeq())
-            .scan(0 to 0) { (reminder), sum ->
-                (reminder + sum).let { (it / 10) to (it % 10) }
+            .scan(0 to 0) { (remainder), sum ->
+                (remainder + sum).let { (it / 10) to (it % 10) }
             }
             .drop(1)
             .toListNode()
