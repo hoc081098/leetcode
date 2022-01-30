@@ -45,7 +45,7 @@ fun alignSum(ls: Seq<Int>, rs: Seq<Int>) = sequence {
     while (r.hasNext()) yield(r.next())
 }
 
-// Because [scan] is only available since Kotlin 1.4.0 (leetcode is using Kotlin < 1.4.0)
+// Because [scan] is only available since Kotlin 1.4.0 (leetcode is using Kotlin 1.3.10)
 fun <T, R> Seq<T>.scan(r: R, f: (acc: R, T) -> R) = sequence {
     var acc = r.also { yield(it) }
     for (e in this@scan) yield(f(acc, e).also { acc = it })
